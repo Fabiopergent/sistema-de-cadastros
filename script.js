@@ -65,4 +65,43 @@ function logout() {
     window.location.href = 'index.html';
 }
 
+const formCliente = document.getElementById('formCliente');
 
+if (formCliente) {
+    formCliente.addEventListener('submit', function (e) {
+        e.preventDefault();
+
+        const nome = document.getElementById('nomeCliente').value;
+        const email = document.getElementById('emailCliente').value;
+        const senha = document.getElementById('senhaCliente').value;
+
+        const novoCliente = { nome, email, senha };
+
+        let clientes = JSON.parse(localStorage.getItem('clientes')) || [];
+
+        clientes.push(novoCliente);
+        localStorage.setItem('clientes', JSON.stringify(clientes));
+
+        alert('Cliente cadastrado com sucesso!');
+        formCliente.reset();
+        listarClientes();
+    });
+}
+
+function listarClientes() {
+    const lista = document.getElementById('listaClientes');
+    if (!lista) return;
+
+    lista.innerHTML = '';
+
+    const clientes = JSON.parse(localStorage.getItem('clientes')) || [];
+
+    clientes.forEach(cliente => {
+        const li = document.createElement('li');
+        li.textContent = `${cliente.nome} - ${cliente.email}`;
+        lista.appendChild(li);
+    });
+}
+
+// Carrega lista ao abrir a página
+listarClientes();
