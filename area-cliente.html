@@ -1,18 +1,35 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-    <head>
-        <meta charset="UTF-8">
-        <title>Área do Cliente</title>
-    </head>
+<head>
+    <meta charset="UTF-8">
+    <title>Área do Cliente</title>
+</head>
+<body>
 
-    <body>
-        <h2>Área do Cliente</h2>
-        <p>Aqui o cliente poderá ver suas informações.</p>
+<script>
+    const usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado'));
+    if (!usuarioLogado || usuarioLogado.tipo !== 'cliente') {
+        alert('Acesso restrito');
+        window.location.href = 'index.html';
+    }
+</script>
 
-        <a href="index.html">Sair</a>
+<h2>Bem-vindo, Cliente</h2>
 
-        <script src="auth.js"></script>
+<p>Suas informações:</p>
 
-        
-    </body>
+<ul>
+    <li>Nome: <span id="nomeCliente"></span></li>
+    <li>Email: <span id="emailCliente"></span></li>
+</ul>
+
+<button onclick="logout()">Sair</button>
+
+<script>
+    document.getElementById('nomeCliente').innerText = usuarioLogado.nome;
+    document.getElementById('emailCliente').innerText = usuarioLogado.email;
+</script>
+
+<script src="script.js"></script>
+</body>
 </html>

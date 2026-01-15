@@ -1,3 +1,4 @@
+// ==================== CADASTRO ====================
 const formCadastro = document.getElementById('formCadastro');
 
 if (formCadastro) {
@@ -10,10 +11,10 @@ if (formCadastro) {
         const tipo = document.getElementById('tipo').value;
 
         const usuario = {
-            nome: nome,
-            email: email,
-            senha: senha,
-            tipo: 'funcionario'
+            nome,
+            email,
+            senha,
+            tipo
         };
 
         localStorage.setItem(email, JSON.stringify(usuario));
@@ -23,7 +24,7 @@ if (formCadastro) {
     });
 }
 
-localStorage.removeItem('usuarioLogado');
+// ==================== LOGIN ====================
 const formLogin = document.getElementById('formLogin');
 
 if (formLogin) {
@@ -47,14 +48,21 @@ if (formLogin) {
             return;
         }
 
+        // Salva usuário logado corretamente
+        localStorage.setItem('usuarioLogado', JSON.stringify(usuario));
+
         if (usuario.tipo === 'funcionario') {
             window.location.href = 'area-funcionario.html';
         } else {
             window.location.href = 'area-cliente.html';
         }
 
-        localStorage.setItem('usuarioLogado', JSON.stringify(tipo));
-
     });
 }
+
+function logout() {
+    localStorage.removeItem('usuarioLogado');
+    window.location.href = 'index.html';
+}
+
 
