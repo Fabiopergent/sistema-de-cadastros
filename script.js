@@ -13,7 +13,7 @@ if (formCadastro) {
             nome: nome,
             email: email,
             senha: senha,
-            tipo: 'cliente'
+            tipo: 'funcionario'
         };
 
         localStorage.setItem(email, JSON.stringify(usuario));
