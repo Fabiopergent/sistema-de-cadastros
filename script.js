@@ -51,6 +51,9 @@ if (formLogin) {
         } else {
             window.location.href = 'area-cliente.html';
         }
+
+        localStorage.setItem('usuarioLogado', JSON.stringify(usuario));
+        
     });
 }
 
