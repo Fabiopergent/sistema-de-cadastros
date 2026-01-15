@@ -23,6 +23,7 @@ if (formCadastro) {
     });
 }
 
+localStorage.removeItem('usuarioLogado');
 const formLogin = document.getElementById('formLogin');
 
 if (formLogin) {
