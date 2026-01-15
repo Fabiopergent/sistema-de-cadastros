@@ -13,7 +13,7 @@ if (formCadastro) {
             nome: nome,
             email: email,
             senha: senha,
-            tipo: tipo
+            tipo: 'cliente'
         };
 
         localStorage.setItem(email, JSON.stringify(usuario));
@@ -52,8 +52,8 @@ if (formLogin) {
             window.location.href = 'area-cliente.html';
         }
 
-        localStorage.setItem('usuarioLogado', JSON.stringify(usuario));
-        
+        localStorage.setItem('usuarioLogado', JSON.stringify(tipo));
+
     });
 }
 
