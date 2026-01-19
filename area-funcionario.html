@@ -24,6 +24,27 @@
     <button onclick="cadastrarCliente()">Salvar</button>
 </div>
 
+<hr>
+
+<h3>Agendar Colsulta</h3>
+
+<select id="clienteConsulta">
+    <option value="">Selecione um cliente</option>
+</select><br><br>
+
+<input type="date" id="dataConsulta"><br><br>
+<input type="time" id="horaConsulta"><br><br>
+
+<select id="tipoConsulta">
+    <option value="">Tipo de consulta</option>
+    <option value="Clínica Geral">Clínica Geral</option>
+    <option value="Cardiologia">Cardiologia</option>
+    <option value="Dermatologia">Dermatologia</option>
+</select><br><br>
+
+<button onclick="agendarConsulta()">Agendar</button>
+
+
 <br>
 <button onclick="logout()">Sair</button>
 

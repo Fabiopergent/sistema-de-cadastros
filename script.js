@@ -104,3 +104,55 @@ function logout() {
     localStorage.removeItem('usuarioLogado');
     window.location.href = 'index.html';
 }
+
+//===========LISTAR CLIENTES PARA AGENDAMENTO=============
+function cadastrarClientesSelect() {
+    const select = document.getElementById('clienteConsulta');
+    if (!select) return;
+
+    const clientes = JSON.parse(localStorage.getItem('clientes')) || [];
+
+    clientes.forEach(cliente => {
+        const option = document.createElement('option');
+        option.value = cliente.id;
+        option.textContent = cliente.nome + ' - ' + cliente.email;
+        select.appendChild(option);
+    });
+}
+
+//EXECUTA AUTOMATICAMENTE AO CARREGAR A AREA DO FUNCONARIO
+if (window.location.pathname.includes('area-funcionario')) {
+    carregarClientesSelect();
+}
+
+//===========AGENDAR CONSULTA=============
+function agendarConsulta() {
+    const clienteId = document.getElementById('clienteConsulta').value;
+    const data = document.getElementById('dataConsulta').value;
+    const horario = document.getElementById('horaConsulta').value;
+    const tipo = document.getElementById('tipoConsulta').value;
+
+    if (!clienteID || !data || !horario || !tipo) {
+        alert('Preencha todos os campos');
+        return;
+    }
+
+    let clientes = JSON.parse(localStorage.getItem('clientes')) || [];
+
+    const cliente = clientes.find(c => c.id == clienteId);
+
+    if (!cliente) {
+        alert('Cliente não encontrado');
+        return;
+    }
+
+    cliente.consultas.push({
+        data,
+        horario,
+        tipo
+    });
+
+    localStorage.setItem('clientes', JSON.stringify(clientes));
+
+    alert('Consulyta agendada com sucesso!');
+}
