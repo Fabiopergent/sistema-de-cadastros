@@ -201,3 +201,53 @@ function cadastrarFuncionario() {
 
     alert('Funcionário cadastrado com sucesso!');
 }
+
+
+//============novo login==========
+
+function login() {
+    const email = document.getElementById('email').value;
+    const senha = document.getElementById('senha').value;
+
+    const usuarios = JSON.parse(localStorage.getItem('usuarios')) || [];
+
+    const usuario = usuarios.find(
+        u => u.email === email && u.senha === senha
+    );
+
+    if (!usuario) {
+        alert('Email ou senha inválidos');
+        return;
+    }
+
+    // salva sessão
+    localStorage.setItem('usuarioLogado', JSON.stringify(usuario));
+
+    // redirecionamento por tipo
+    if (usuario.tipo === 'admin') {
+        window.location.href = 'area-adm.html';
+    } 
+    else if (usuario.tipo === 'funcionario') {
+        window.location.href = 'area-funcionario.html';
+    } 
+    else {
+        window.location.href = 'area-cliente.html';
+    }
+}
+
+//========logim adm ========
+const adminPadrao = {
+    nome: 'Administrador',
+    email: 'admin@gmail.com',
+    senha: '1234',
+    tipo: 'admin'
+};
+
+let usuarios = JSON.parse(localStorage.getItem('usuarios')) || [];
+
+const existeAdmin = usuarios.some(u => u.tipo === 'admin');
+
+if (!existeAdmin) {
+    usuarios.push(adminPadrao);
+    localStorage.setItem('usuarios', JSON.stringify(usuarios));
+}
