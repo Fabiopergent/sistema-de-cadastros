@@ -1,23 +1,22 @@
-//funcionario admin fixo//
+// ================= FUNCIONÁRIO FIXO =================
 if (!localStorage.getItem('funcionarios')) {
     const funcionarios = [
-        { matricula: 'admin', nome: 'Administrador', senha: '1234'}
+        { matricula: 'admin', nome: 'Administrador', senha: '1234' }
     ];
     localStorage.setItem('funcionarios', JSON.stringify(funcionarios));
 }
 
-//logim cliente//
-
-const formLoginCliente = document.getElementById('formLoginCLiente');
+// ================= LOGIN CLIENTE =================
+const formLoginCliente = document.getElementById('formLoginCliente');
 
 if (formLoginCliente) {
     formLoginCliente.addEventListener('submit', function (e) {
-        e.preventDefault()
+        e.preventDefault();
 
         const email = document.getElementById('emailCliente').value;
         const senha = document.getElementById('senhaCliente').value;
 
-        const clientes = JSON.parse(localStorage.getItem('cliente')) || [];
+        const clientes = JSON.parse(localStorage.getItem('clientes')) || [];
         const cliente = clientes.find(c => c.email === email && c.senha === senha);
 
         if (!cliente) {
@@ -27,11 +26,10 @@ if (formLoginCliente) {
 
         localStorage.setItem('usuarioLogado', JSON.stringify({ ...cliente, tipo: 'cliente' }));
         window.location.href = 'area-cliente.html';
-    } )
+    });
 }
 
-//login funcionario//
-
+// ================= LOGIN FUNCIONÁRIO =================
 const formLoginFuncionario = document.getElementById('formLoginFuncionario');
 
 if (formLoginFuncionario) {
@@ -54,14 +52,7 @@ if (formLoginFuncionario) {
     });
 }
 
-//mostrar formulario//
-
-function mostrarCadastro() {
-    document.getElementById('cadastroCliente').styledisplay = 'block';
-}
-
-//cadastrar cliente//
-
+// ================= CADASTRO CLIENTE =================
 function cadastrarCliente() {
     const cliente = {
         id: Date.now(),
@@ -71,13 +62,12 @@ function cadastrarCliente() {
         cpf: document.getElementById('cpf').value,
         telefone: document.getElementById('telefone').value,
         endereco: document.getElementById('endereco').value,
-        consulta: []
+        consultas: []
     };
 
     let clientes = JSON.parse(localStorage.getItem('clientes')) || [];
 
-    //validar email duplicado//
-    if (clientes.some(C => C.email === cliente.email)) {
+    if (clientes.some(c => c.email === cliente.email)) {
         alert('Email já cadastrado');
         return;
     }
@@ -85,21 +75,15 @@ function cadastrarCliente() {
     clientes.push(cliente);
     localStorage.setItem('clientes', JSON.stringify(clientes));
 
-    alert('CLiente cadastrado com sucesso!');
+    alert('Cliente cadastrado com sucesso!');
 }
 
-//exibir dados do cliente//
-// Só roda se estiver na área do cliente
+// ================= ÁREA DO CLIENTE =================
 if (window.location.pathname.includes('area-cliente')) {
-
     const usuario = JSON.parse(localStorage.getItem('usuarioLogado'));
 
     if (usuario && usuario.tipo === 'cliente') {
-
-        const dadosDiv = document.getElementById('dados');
-        const lista = document.getElementById('consultas');
-
-        dadosDiv.innerHTML = `
+        document.getElementById('dados').innerHTML = `
             <p><b>Nome:</b> ${usuario.nome}</p>
             <p><b>Email:</b> ${usuario.email}</p>
             <p><b>CPF:</b> ${usuario.cpf}</p>
@@ -107,13 +91,16 @@ if (window.location.pathname.includes('area-cliente')) {
             <p><b>Endereço:</b> ${usuario.endereco}</p>
         `;
 
-        // Evita erro se ainda não tiver consultas
-        if (usuario.consultas && usuario.consultas.length > 0) {
-            usuario.consultas.forEach(c => {
-                lista.innerHTML += `<li>${c.data} - ${c.horario} (${c.tipo})</li>`;
-            });
-        } else {
-            lista.innerHTML = '<li>Nenhuma consulta agendada</li>';
-        }
+        const lista = document.getElementById('consultas');
+        lista.innerHTML = usuario.consultas.length
+            ? usuario.consultas.map(c => `<li>${c.data} - ${c.horario} (${c.tipo})</li>`).join('')
+            : '<li>Nenhuma consulta agendada</li>';
     }
+}
+
+//========FUNÇAO LOGOUT=======//
+
+function logout() {
+    localStorage.removeItem('usuarioLogado');
+    window.location.href = 'index.html';
 }
