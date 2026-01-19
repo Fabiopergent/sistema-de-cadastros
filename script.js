@@ -54,29 +54,42 @@ if (formLoginFuncionario) {
 
 // ================= CADASTRO CLIENTE =================
 function cadastrarCliente() {
-    const cliente = {
-        id: Date.now(),
-        nome: document.getElementById('nome').value,
-        email: document.getElementById('email').value,
-        senha: document.getElementById('senha').value,
-        cpf: document.getElementById('cpf').value,
-        telefone: document.getElementById('telefone').value,
-        endereco: document.getElementById('endereco').value,
-        consultas: []
-    };
+    const nome = document.getElementById('nome').value;
+    const email = document.getElementById('email').value;
+    const senha = document.getElementById('senha').value;
+    const cpf = document.getElementById('cpf').value;
+    const telefone = document.getElementById('telefone').value;
+    const endereco = document.getElementById('endereco').value;
 
-    let clientes = JSON.parse(localStorage.getItem('clientes')) || [];
-
-    if (clientes.some(c => c.email === cliente.email)) {
-        alert('Email já cadastrado');
+    if (!nome || !email || !senha) {
+        alert('Preencha os campos obrigatórios');
         return;
     }
 
-    clientes.push(cliente);
-    localStorage.setItem('clientes', JSON.stringify(clientes));
+    let usuarios = JSON.parse(localStorage.getItem('usuarios')) || [];
+
+    usuarios.push({
+        nome,
+        email,
+        senha,
+        cpf,
+        telefone,
+        endereco,
+        tipo: 'cliente'
+    });
+
+    localStorage.setItem('usuarios', JSON.stringify(usuarios));
 
     alert('Cliente cadastrado com sucesso!');
 }
+
+
+//===========funçao mostrar cadastro==============
+function mostrarCadastro() {
+    const div = document.getElementById('cadastroCliente');
+    div.style.display = div.style.display === 'none' ? 'block' : 'none';
+}
+
 
 // ================= ÁREA DO CLIENTE =================
 if (window.location.pathname.includes('area-cliente')) {
@@ -155,4 +168,36 @@ function agendarConsulta() {
     localStorage.setItem('clientes', JSON.stringify(clientes));
 
     alert('Consulyta agendada com sucesso!');
+}
+
+//=========AREA ADM===============
+function mostrarCadastroFuncionario() {
+    const div = document.getElementById('cadastroFuncionario');
+    div.style.display = div.style.display === 'none' ? 'block' : 'none';
+}
+
+function cadastrarFuncionario() {
+    const nome = document.getElementById('nomeFunc').value;
+    const matricula = document.getElementById('matriculaFunc').value;
+    const senha = document.getElementById('senhaFunc').value;
+    const email = document.getElementById('emailFunc').value;
+
+    if (!nome || !matricula || !senha) {
+        alert('Preencha os campos obrigatórios');
+        return;
+    }
+
+    let usuarios = JSON.parse(localStorage.getItem('usuarios')) || [];
+
+    usuarios.push({
+        nome,
+        matricula,
+        email,
+        senha,
+        tipo: 'funcionario'
+    });
+
+    localStorage.setItem('usuarios', JSON.stringify(usuarios));
+
+    alert('Funcionário cadastrado com sucesso!');
 }

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Área Administrativa</title>
+</head>
+
+<body data-tipo="admin">
+
+<h2>Painel do Administrador</h2>
+
+<button onclick="mostrarCadastroFuncionario()">Cadastrar Funcionário</button>
+
+<div id="cadastroFuncionario" style="display:none;">
+    <h3>Novo Funcionário</h3>
+
+    <input type="text" id="nomeFunc" placeholder="Nome Completo">
+    <input type="text" id="matriculaFunc" placeholder="Matrícula">
+    <input type="password" id="senhaFunc" placeholder="Senha">
+    <input type="email" id="emailFunc" placeholder="Email">
+
+    <button onclick="cadastrarFuncionario()">Salvar</button>
+</div>
+
+<button onclick="logout()">Sair</button>
+
+<script src="auth.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
