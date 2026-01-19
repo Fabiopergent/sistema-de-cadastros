@@ -1,4 +1,4 @@
-<!--
+
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -7,34 +7,27 @@
 </head>
 <body>
 
-<script>
-    const usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado'));
-    if (!usuarioLogado || usuarioLogado.tipo !== 'funcionario') {
-        alert('Acesso restrito');
-        window.location.href = 'index.html';
-    }
-</script>
+<h2>Painel do Funcionário</h2>
 
-<h2>Bem-vindo, Funcionário</h2>
+<button onclick="mostrarCadastro()">Cadastrar Cliente</button>
 
-<p>Aqui você poderá cadastrar clientes no futuro.</p>
+<div id="cadastroCliente" style="display:nome;">
+    <h3>Novo Cliente</h3>
 
-<h3>Cadastrar Cliente</h3>
+    <input type="text" id="nome" placeholder="Nome Completo">
+    <input type="email" id="email">
+    <input type="password" id="senha">
+    <input type="text" id="cpf">
+    <input type="text" id="telefone">
+    <input type="text" id="endereco">
 
-<form id="formCliente">
-    <input type="text" id="nomeCliente" placeholder="Nome" required>
-    <input type="email" id="emailCliente" placeholder="Email" required>
-    <input type="password" id="senhaCliente" placeholder="Senha" required>
-    <button type="submit">Cadastrar Cliente</button>
-</form>
+    <button onclick="cadastrarCliente()">Salvar</button>
+</div>
 
-<hr>
-
-<h3>Lista de Clientes</h3>
-<ul id="listaClientes"></ul>
-
-<button onclick="logout()">Sair</button>
-
+<script src="auth.js"></script>
 <script src="script.js"></script>
 </body>
+
+<body data-tipo="funcionario"></body>
+
 </html>
