@@ -130,24 +130,26 @@ function mostrarCadastroFuncionario() {
 
 function cadastrarFuncionario() {
     const nome = document.getElementById('nomeFunc').value;
+    const matricula = document.getElementById('matriculaFunc').value;
     const email = document.getElementById('emailFunc').value;
     const senha = document.getElementById('senhaFunc').value;
 
-    if (!nome || !email || !senha) {
+    if (!nome || !matricula || !senha) {
         alert('Preencha os campos obrigatórios');
         return;
     }
 
     const usuarios = getUsuarios();
 
-    if (usuarios.some(u => u.email === email)) {
-        alert('Email já cadastrado');
+    if (usuarios.some(u => u.matricula === matricula)) {
+        alert('Matrícula já cadastrada');
         return;
     }
 
     usuarios.push({
         id: Date.now(),
         nome,
+        matricula,
         email,
         senha,
         tipo: 'funcionario'

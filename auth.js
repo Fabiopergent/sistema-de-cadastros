@@ -1,7 +1,7 @@
 const usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado'));
 
 if (!usuarioLogado) {
-    alert('Acesso negado. Faça login.');
+
     window.location.href = 'index.html';
 }
 
@@ -10,20 +10,20 @@ const pagina = window.location.pathname;
 
 // Proteção funcionário
 if (pagina.includes('area-funcionario') && usuarioLogado.tipo !== 'funcionario') {
-    alert('Acesso permitido apenas para funcionários.');
+
     window.location.href = 'index.html';
 }
 
 // Proteção cliente
 if (pagina.includes('area-cliente') && usuarioLogado.tipo !== 'cliente') {
-    alert('Acesso permitido apenas para clientes.');
+
     window.location.href = 'index.html';
 }
 
 // area adm
 
 if (pagina.includes('area-adm') && usuarioLogado.tipo !== 'admin') {
-    alert('Acesso permitido apenas para administradores.');
+    
     window.location.href = 'index.html';
 }
 
