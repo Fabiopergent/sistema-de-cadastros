@@ -20,11 +20,14 @@ if (pagina.includes('area-cliente') && usuarioLogado.tipo !== 'cliente') {
     window.location.href = 'index.html';
 }
 
+
 // area adm
 
-//if (pagina.includes('area-adm') && usuarioLogado.tipo !== 'admin') {
 
- //  window.location.href = 'index.html';
-//}
+if (pagina.includes('area-adm') && usuarioLogado.tipo !== 'admin') {
+    alert('Acesso permitido apenas para administradores.');
+    window.location.href = 'index.html';
+}
+
 
 
