@@ -1,33 +1,14 @@
 const usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado'));
 
 if (!usuarioLogado) {
-
+    alert('Acesso negado. Faça login.');
     window.location.href = 'index.html';
 }
 
-// Página atual
-const pagina = window.location.pathname;
+// tipo exigido pela página
+const tipoPagina = document.body.dataset.tipo;
 
-// Proteção funcionário
-if (pagina.includes('area-funcionario') && usuarioLogado.tipo !== 'funcionario') {
-
+if (tipoPagina && usuarioLogado.tipo !== tipoPagina) {
+    alert('Acesso não autorizado.');
     window.location.href = 'index.html';
 }
-
-// Proteção cliente
-if (pagina.includes('area-cliente') && usuarioLogado.tipo !== 'cliente') {
-
-    window.location.href = 'index.html';
-}
-
-
-// area adm
-
-
-if (pagina.includes('area-adm') && usuarioLogado.tipo !== 'admin') {
-    alert('Acesso permitido apenas para administradores.');
-    window.location.href = 'index.html';
-}
-
-
-
