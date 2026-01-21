@@ -58,6 +58,26 @@ if (formLoginFuncionario) {
     });
 }
 
+// ================= LOGIN CLIENTE =================
+function loginCliente() {
+    const email = document.getElementById('emailCliente').value;
+    const senha = document.getElementById('senhaCliente').value;
+
+    const usuarios = getUsuarios();
+    const cliente = usuarios.find(
+        u => u.email === email && u.senha === senha && u.tipo === 'cliente'
+    );
+
+    if (!cliente) {
+        alert('Email ou senha inválidos');
+        return;
+    }
+
+    localStorage.setItem('usuarioLogado', JSON.stringify(cliente));
+    window.location.href = 'area-cliente.html';
+}
+
+
 // ================= LOGOUT =================
 function logout() {
     localStorage.removeItem('usuarioLogado');
@@ -145,4 +165,14 @@ function cadastrarFuncionario() {
 
     setUsuarios(usuarios);
     alert('Funcionário cadastrado com sucesso!');
+}
+
+// ================= FORM LOGIN CLIENTE =================
+const formLoginCliente = document.getElementById('formLoginCliente');
+
+if (formLoginCliente) {
+    formLoginCliente.addEventListener('submit', function (e) {
+        e.preventDefault();
+        loginCliente();
+    });
 }
