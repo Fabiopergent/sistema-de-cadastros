@@ -50,6 +50,17 @@ function login() {
     }
 }
 
+//=======ajuste
+
+const formLoginFuncionario = document.getElementById('formLoginFuncionario');
+
+if (formLoginFuncionario) {
+    formLoginFuncionario.addEventListener('submit', function (e) {
+        e.preventDefault(); // 🔥 ISSO EVITA O RELOAD
+
+        login();
+    });
+}
 
 
 // ================= LOGIN =================
