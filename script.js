@@ -8,6 +8,7 @@ function setUsuarios(usuarios) {
 }
 
 // ===== ADMIN PADRÃO =====
+
 let usuarios = JSON.parse(localStorage.getItem('usuarios')) || [];
 
 const existeAdmin = usuarios.some(u => u.tipo === 'admin');

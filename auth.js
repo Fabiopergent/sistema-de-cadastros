@@ -23,8 +23,8 @@ if (pagina.includes('area-cliente') && usuarioLogado.tipo !== 'cliente') {
 // area adm
 
 if (pagina.includes('area-adm') && usuarioLogado.tipo !== 'admin') {
-    
-    window.location.href = 'index.html';
+
+   window.location.href = 'index.html';
 }
 
 
