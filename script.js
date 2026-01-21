@@ -7,22 +7,22 @@ function setUsuarios(usuarios) {
     localStorage.setItem('usuarios', JSON.stringify(usuarios));
 }
 
-// ================= ADMIN PADRÃO =================
-function criarAdminPadrao() {
-    const usuarios = getUsuarios();
-    const existeAdmin = usuarios.some(u => u.tipo === 'admin');
+// ===== ADMIN PADRÃO =====
+let usuarios = JSON.parse(localStorage.getItem('usuarios')) || [];
 
-    if (!existeAdmin) {
-        usuarios.push({
-            id: Date.now(),
-            nome: 'Administrador',
-            email: 'admin@clinica.com',
-            senha: '1234',
-            tipo: 'admin'
-        });
-        setUsuarios(usuarios);
-    }
+const existeAdmin = usuarios.some(u => u.tipo === 'admin');
+
+if (!existeAdmin) {
+    usuarios.push({
+        nome: 'Administrador',
+        email: 'admin@sistema.com',
+        senha: '1234',
+        tipo: 'admin'
+    });
+
+    localStorage.setItem('usuarios', JSON.stringify(usuarios));
 }
+
 
 
 // ================= LOGIN =================
