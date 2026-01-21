@@ -24,6 +24,32 @@ if (!existeAdmin) {
     localStorage.setItem('usuarios', JSON.stringify(usuarios));
 }
 
+//=====logim temporario 
+function login() {
+    const email = document.getElementById('email').value;
+    const senha = document.getElementById('senha').value;
+
+    console.log("EMAIL DIGITADO:", email);
+    console.log("SENHA DIGITADA:", senha);
+
+    const usuarios = getUsuarios();
+    console.log("USUÁRIOS NO SISTEMA:", usuarios);
+
+    const usuario = usuarios.find(u => u.email === email && u.senha === senha);
+    console.log("USUÁRIO ENCONTRADO:", usuario);
+
+    if (!usuario) {
+        alert('Email ou senha inválidos');
+        return;
+    }
+
+    localStorage.setItem('usuarioLogado', JSON.stringify(usuario));
+
+    if (usuario.tipo === 'admin') {
+        window.location.href = 'area-adm.html';
+    }
+}
+
 
 
 // ================= LOGIN =================
