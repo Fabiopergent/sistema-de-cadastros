@@ -85,20 +85,13 @@ function logout() {
 }
 
 // ================= CADASTRO DE CLIENTE =================
-function mostrarCadastro() {
-    const div = document.getElementById('cadastroCliente');
-    if (div) {
-        div.style.display = div.style.display === 'none' ? 'block' : 'none';
-    }
-}
-
 function cadastrarCliente() {
-    const nome = document.getElementById('nome').value;
-    const email = document.getElementById('email').value;
-    const senha = document.getElementById('senha').value;
-    const cpf = document.getElementById('cpf').value;
-    const telefone = document.getElementById('telefone').value;
-    const endereco = document.getElementById('endereco').value;
+    const nome = document.getElementById('clienteNome').value;
+    const email = document.getElementById('clienteEmail').value;
+    const senha = document.getElementById('clienteSenha').value;
+    const cpf = document.getElementById('clienteCpf').value;
+    const telefone = document.getElementById('clienteTelefone').value;
+    const endereco = document.getElementById('clienteEndereco').value;
 
     if (!nome || !email || !senha) {
         alert('Preencha os campos obrigatórios');
@@ -127,6 +120,7 @@ function cadastrarCliente() {
     setUsuarios(usuarios);
     alert('Cliente cadastrado com sucesso!');
 }
+
 
 // ================= ÁREA ADMIN =================
 function mostrarCadastroFuncionario() {
