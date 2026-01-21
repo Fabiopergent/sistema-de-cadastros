@@ -7,61 +7,22 @@ function setUsuarios(usuarios) {
     localStorage.setItem('usuarios', JSON.stringify(usuarios));
 }
 
-// ===== ADMIN PADRÃO =====
-
-let usuarios = JSON.parse(localStorage.getItem('usuarios')) || [];
-
-const existeAdmin = usuarios.some(u => u.tipo === 'admin');
-
-if (!existeAdmin) {
-    usuarios.push({
-        nome: 'Administrador',
-        email: 'admin@sistema.com',
-        senha: '1234',
-        tipo: 'admin'
-    });
-
-    localStorage.setItem('usuarios', JSON.stringify(usuarios));
-}
-
-//=====logim temporario 
-function login() {
-    const email = document.getElementById('email').value;
-    const senha = document.getElementById('senha').value;
-
-    console.log("EMAIL DIGITADO:", email);
-    console.log("SENHA DIGITADA:", senha);
-
+// ================= ADMIN PADRÃO =================
+(function criarAdminPadrao() {
     const usuarios = getUsuarios();
-    console.log("USUÁRIOS NO SISTEMA:", usuarios);
+    const existeAdmin = usuarios.some(u => u.tipo === 'admin');
 
-    const usuario = usuarios.find(u => u.email === email && u.senha === senha);
-    console.log("USUÁRIO ENCONTRADO:", usuario);
-
-    if (!usuario) {
-        alert('Email ou senha inválidos');
-        return;
+    if (!existeAdmin) {
+        usuarios.push({
+            id: Date.now(),
+            nome: 'Administrador',
+            email: 'admin@sistema.com',
+            senha: '1234',
+            tipo: 'admin'
+        });
+        setUsuarios(usuarios);
     }
-
-    localStorage.setItem('usuarioLogado', JSON.stringify(usuario));
-
-    if (usuario.tipo === 'admin') {
-        window.location.href = 'area-adm.html';
-    }
-}
-
-//=======ajuste
-
-const formLoginFuncionario = document.getElementById('formLoginFuncionario');
-
-if (formLoginFuncionario) {
-    formLoginFuncionario.addEventListener('submit', function (e) {
-        e.preventDefault(); // 🔥 ISSO EVITA O RELOAD
-
-        login();
-    });
-}
-
+})();
 
 // ================= LOGIN =================
 function login() {
@@ -87,13 +48,23 @@ function login() {
     }
 }
 
+// ================= FORM LOGIN FUNCIONÁRIO =================
+const formLoginFuncionario = document.getElementById('formLoginFuncionario');
+
+if (formLoginFuncionario) {
+    formLoginFuncionario.addEventListener('submit', function (e) {
+        e.preventDefault();
+        login();
+    });
+}
+
 // ================= LOGOUT =================
 function logout() {
     localStorage.removeItem('usuarioLogado');
     window.location.href = 'index.html';
 }
 
-// ================= CADASTRO DE CLIENTE (FUNCIONÁRIO) =================
+// ================= CADASTRO DE CLIENTE =================
 function mostrarCadastro() {
     const div = document.getElementById('cadastroCliente');
     if (div) {
@@ -135,28 +106,6 @@ function cadastrarCliente() {
 
     setUsuarios(usuarios);
     alert('Cliente cadastrado com sucesso!');
-}
-
-// ================= EXIBIR DADOS DO CLIENTE =================
-if (window.location.pathname.includes('area-cliente')) {
-    const usuario = JSON.parse(localStorage.getItem('usuarioLogado'));
-
-    if (usuario && usuario.tipo === 'cliente') {
-        document.getElementById('dados').innerHTML = `
-            <p><b>Nome:</b> ${usuario.nome}</p>
-            <p><b>Email:</b> ${usuario.email}</p>
-            <p><b>CPF:</b> ${usuario.cpf || '-'}</p>
-            <p><b>Telefone:</b> ${usuario.telefone || '-'}</p>
-            <p><b>Endereço:</b> ${usuario.endereco || '-'}</p>
-        `;
-
-        const lista = document.getElementById('consultas');
-        lista.innerHTML = usuario.consultas && usuario.consultas.length
-            ? usuario.consultas.map(c =>
-                `<li>${c.data} - ${c.horario} (${c.tipo})</li>`
-              ).join('')
-            : '<li>Nenhuma consulta agendada</li>';
-    }
 }
 
 // ================= ÁREA ADMIN =================
