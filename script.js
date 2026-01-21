@@ -8,7 +8,7 @@ function setUsuarios(usuarios) {
 }
 
 // ================= ADMIN PADRÃO =================
-(function criarAdminPadrao() {
+function criarAdminPadrao() {
     const usuarios = getUsuarios();
     const existeAdmin = usuarios.some(u => u.tipo === 'admin');
 
@@ -22,7 +22,8 @@ function setUsuarios(usuarios) {
         });
         setUsuarios(usuarios);
     }
-})();
+}
+
 
 // ================= LOGIN =================
 function login() {
