@@ -177,3 +177,13 @@ if (formLoginCliente) {
         loginCliente();
     });
 }
+
+//----- chama funcao cadastrar cliente ==========
+
+document.addEventListener('DOMContentLoaded', () => {
+    const btn = document.getElementById('btnCadastrarCliente');
+
+    if (btn) {
+        btn.addEventListener('click', mostrarCadastroCliente);
+    }
+});
