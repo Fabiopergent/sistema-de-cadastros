@@ -187,3 +187,104 @@ document.addEventListener('DOMContentLoaded', () => {
         btn.addEventListener('click', mostrarCadastroCliente);
     }
 });
+
+
+// ==========carregar clientes salvos
+
+function carregarClientesNoSelect() {
+    const select = document.getElementById('clienteConsulta');
+    if (!select) return;
+
+    const usuarios = getUsuarios();
+    const clientes = usuarios.filter(u => u.tipo === 'cliente');
+
+select.innerHTML = '<option value="">Selecione um cliente</option>';
+
+clientes.forEach(cliente => {
+    const otpion = document.createElement('option');
+    option.value = cliente.id;
+    option.textContent = cliente.nome + ' - ' + cliente.email;
+    select.appendChild(option);
+  });
+}
+
+//CHAMA AUTOMATICAMENTE OS CLIENTES CADASTRADOS NA AREA FUNCIONARIO ///
+document.addEventListener('DOMContentLoaded', () => {
+    carregarClientesNoSelect();
+})
+
+//=====FUNCAO AGENDAMENTO DE CONSULTA  =====
+
+function agendarConsulta() {
+    const clienteID = document.getElementById('clienteConsulta').value;
+    const data = document.getElementById('dataConsulta').value;
+    const horario = document.getElementById('horaConsulta').value;
+    const tipo = document.getElementById('tipoConsulta').value;
+
+    if (!clienteID || !data || !horario || !tipo) {
+        alert('Preencha todos os campos');
+        return;
+    }
+
+    const usuarios = getUsuarios();
+    const cliente = usuarios.find(u => u.id == clienteId);
+
+    if (!cliente) {
+        alert('Cliente não encontrado');
+        return;
+    }
+
+    if(!cliente.consultas) {
+        cliente.consultas = [];
+    }
+
+    cliente.consultas.push({
+        data,
+        horario,
+        tipo
+    });
+
+    setUsuarios(usuarios);
+    alert('Consulta agendada com sucesso!');
+
+    // limpa campos 
+
+    document.getElementById('clienteConsulta').value = '';
+    document.getElementById('dataConsulta').value = '';
+    document.getElementById('horaConsulta').value = '';
+    document.getElementById('tipoConsulta').value = '';
+}
+
+//=======CARREGAR CONSULTA DE CLIENTE LOGADO=======
+
+function carregarConsultasCliente() {
+    const lista = document.getElementById('consultas');
+    if (!lista) return;
+
+    const usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado'));
+    if (!usuarioLogado || usuarioLogado.tipo !== 'cliente') return;
+
+    const usuarios = getUsuarios();
+    const cliente = usuarios.find(u => u.id === usuarioLogado.id);
+
+    if (!cliente || !cliente.consultas || cliente.consultas.length === 0) {
+        lista.innerHTML = '<li>Nenhuma consulta agendada</li>';
+        return;
+    }
+
+    lista.innerHTML = '';
+
+    cliente.consultas.forEach(c => {
+        const li = document.createElement('li');
+        li.textContent = `${c.data} - ${c.horario} (${c.tipo})`;
+        lista.appendChild(li);
+    });
+}
+
+
+//===== CHAMAR CONSULTA AUTOMATICAMENTE DO CLIENT
+
+document.addEventListener('DOMContentLoaded', () => {
+    carregarClientesNoSelect();
+    carregarClientesNoSelect();
+});
