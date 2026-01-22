@@ -85,6 +85,13 @@ function logout() {
 }
 
 // ================= CADASTRO DE CLIENTE =================
+function mostrarCadastroCliente() {
+    const div = document.getElementById('cadastroCliente');
+    if (div) {
+        div.style.display = div.style.display === 'none' ? 'block' : 'none';
+    }
+}
+
 function cadastrarCliente() {
     const nome = document.getElementById('clienteNome').value;
     const email = document.getElementById('clienteEmail').value;
