@@ -217,6 +217,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 //=====FUNCAO AGENDAMENTO DE CONSULTA  =====
 
+
 function agendarConsulta() {
     const clienteID = document.getElementById('clienteConsulta').value;
     const data = document.getElementById('dataConsulta').value;
@@ -236,7 +237,7 @@ function agendarConsulta() {
         return;
     }
 
-    const diaSemana = dataConsulta.getDay(); // 0 = domingo | 6 = sábado
+    const diaSemana = dataConsulta.getDay();
     if (diaSemana === 0 || diaSemana === 6) {
         alert('Atendimento somente de segunda a sexta');
         return;
@@ -255,7 +256,7 @@ function agendarConsulta() {
         return;
     }
 
-    // 🔒 BLOQUEIO DE HORÁRIO DUPLICADO
+
     const horarioOcupado = usuarios.some(u =>
         u.tipo === 'cliente' &&
         u.consultas &&
@@ -285,17 +286,14 @@ function agendarConsulta() {
 
     setUsuarios(usuarios);
     alert('Consulta agendada com sucesso!');
-}
-
-
-    // limpa campos 
-
+    // ✅ LIMPAR CAMPOS (agora no lugar certo)
     document.getElementById('clienteConsulta').value = '';
     document.getElementById('dataConsulta').value = '';
     document.getElementById('horaConsulta').value = '';
     document.getElementById('tipoConsulta').value = '';
+}
 
-    
+
 //=======CARREGAR CONSULTA DE CLIENTE LOGADO=======
 
 function carregarConsultasCliente() {
