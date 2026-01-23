@@ -294,8 +294,8 @@ function agendarConsulta() {
     document.getElementById('dataConsulta').value = '';
     document.getElementById('horaConsulta').value = '';
     document.getElementById('tipoConsulta').value = '';
-}
 
+    
 //=======CARREGAR CONSULTA DE CLIENTE LOGADO=======
 
 function carregarConsultasCliente() {
