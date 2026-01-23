@@ -229,7 +229,7 @@ function agendarConsulta() {
     }
 
     const usuarios = getUsuarios();
-    const cliente = usuarios.find(u => u.id == clienteId);
+    const cliente = usuarios.find(u => u.id == clienteID);
 
     if (!cliente) {
         alert('Cliente não encontrado');
@@ -288,5 +288,5 @@ function carregarConsultasCliente() {
 
 document.addEventListener('DOMContentLoaded', () => {
     carregarClientesNoSelect();
-    carregarClientesNoSelect();
+    carregarConsultasCliente();
 });
