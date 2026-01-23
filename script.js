@@ -93,12 +93,12 @@ function mostrarCadastroCliente() {
 }
 
 function cadastrarCliente() {
-    const nome = document.getElementById('clienteNome').value;
-    const email = document.getElementById('clienteEmail').value;
-    const senha = document.getElementById('clienteSenha').value;
-    const cpf = document.getElementById('clienteCpf').value;
-    const telefone = document.getElementById('clienteTelefone').value;
-    const endereco = document.getElementById('clienteEndereco').value;
+    const nome = document.getElementById('clienteNome')?.value;
+    const email = document.getElementById('clienteEmail')?.value;
+    const senha = document.getElementById('clienteSenha')?.value;
+    const cpf = document.getElementById('clienteCpf')?.value;
+    const telefone = document.getElementById('clienteTelefone')?.value;
+    const endereco = document.getElementById('clienteEndereco')?.value;
 
     if (!nome || !email || !senha) {
         alert('Preencha os campos obrigatórios');
@@ -126,6 +126,7 @@ function cadastrarCliente() {
 
     setUsuarios(usuarios);
     alert('Cliente cadastrado com sucesso!');
+    carregarClientesNoSelect();  // atualiza o select na hora
 }
 
 
@@ -203,7 +204,8 @@ select.innerHTML = '<option value="">Selecione um cliente</option>';
 clientes.forEach(cliente => {
     const otpion = document.createElement('option');
     option.value = cliente.id;
-    option.textContent = cliente.nome + ' - ' + cliente.email;
+   // option.textContent = cliente.nome + ' - ' + cliente.email;
+    option.textContent = `${cliente.nome} - ${cliente.email}`;
     select.appendChild(option);
   });
 }
