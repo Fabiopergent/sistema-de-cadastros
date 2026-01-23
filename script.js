@@ -228,6 +228,25 @@ function agendarConsulta() {
         return;
     }
 
+    const hoje = new Date();
+    const dataConsulta = new Date(data + 'T00:00');
+
+    if (dataConsulta < new Date(hoje.toDateString())) {
+        alert('Não é permitido agendar para datas passadas');
+        return;
+    }
+
+    const diaSemana = dataConsulta.getDay(); // 0 = domingo | 6 = sábado
+    if (diaSemana === 0 || diaSemana === 6) {
+        alert('Atendimento somente de segunda a sexta');
+        return;
+    }
+
+    if (horario < '07:00' || horario > '18:00') {
+        alert('Horário permitido: 07:00 às 18:00');
+        return;
+    }
+
     const usuarios = getUsuarios();
     const cliente = usuarios.find(u => u.id == clienteID);
 
@@ -236,18 +255,38 @@ function agendarConsulta() {
         return;
     }
 
-    if(!cliente.consultas) {
+    // 🔒 BLOQUEIO DE HORÁRIO DUPLICADO
+    const horarioOcupado = usuarios.some(u =>
+        u.tipo === 'cliente' &&
+        u.consultas &&
+        u.consultas.some(c =>
+            c.data === data &&
+            c.horario === horario &&
+            c.status === 'ativa'
+        )
+    );
+
+    if (horarioOcupado) {
+        alert('Este horário já está ocupado');
+        return;
+    }
+
+    if (!cliente.consultas) {
         cliente.consultas = [];
     }
 
     cliente.consultas.push({
         data,
         horario,
-        tipo
+        tipo,
+        status: 'ativa',
+        cancelamento: null
     });
 
     setUsuarios(usuarios);
     alert('Consulta agendada com sucesso!');
+}
+
 
     // limpa campos 
 
@@ -270,15 +309,22 @@ function carregarConsultasCliente() {
     const cliente = usuarios.find(u => u.id === usuarioLogado.id);
 
     if (!cliente || !cliente.consultas || cliente.consultas.length === 0) {
-        lista.innerHTML = '<li>Nenhuma consulta agendada</li>';
+        lista.innerHTML = '<li>Nenhuma consulta</li>';
         return;
     }
 
     lista.innerHTML = '';
 
-    cliente.consultas.forEach(c => {
+    cliente.consultas.forEach((c, index) => {
+        if (c.status === 'cancelada') return;
+
         const li = document.createElement('li');
-        li.textContent = `${c.data} - ${c.horario} (${c.tipo})`;
+        li.innerHTML = `
+            ${c.data} - ${c.horario} (${c.tipo})
+            <button onclick="cancelarConsulta(${cliente.id}, ${index}, 'cliente')">
+                Cancelar
+            </button>
+        `;
         lista.appendChild(li);
     });
 }
@@ -290,3 +336,32 @@ document.addEventListener('DOMContentLoaded', () => {
     carregarClientesNoSelect();
     carregarConsultasCliente();
 });
+
+//======funçao de cancelamento de consulta========
+
+function cancelarConsulta(clienteId, indexConsulta, quemCancelou) {
+    const motivo = prompt('Informe o motivo do cancelamento:');
+
+    if (!motivo || motivo.trim() === '') {
+        alert('Motivo é obrigatório');
+        return;
+    }
+
+    const usuarios = getUsuarios();
+    const cliente = usuarios.find(u => u.id == clienteId);
+
+    if (!cliente || !cliente.consultas[indexConsulta]) {
+        alert('Consulta não encontrada');
+        return;
+    }
+
+    cliente.consultas[indexConsulta].status = 'cancelada';
+    cliente.consultas[indexConsulta].cancelamento = {
+        motivo,
+        quemCancelou,
+        data: new Date().toLocaleString()
+    };
+
+    setUsuarios(usuarios);
+    alert('Consulta cancelada com sucesso!');
+}
