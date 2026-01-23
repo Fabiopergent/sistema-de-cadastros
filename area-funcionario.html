@@ -31,6 +31,29 @@
 <h3>Agendar Consulta</h3>
 
 <select id="clienteConsulta">
+
+    <div id="infoCliente" style="display:none; margin-top:20px;">
+
+    <h3>📋 Dados do Cliente</h3>
+
+    <label>Email:</label><br>
+    <input type="email" id="editEmail"><br><br>
+
+    <label>Telefone:</label><br>
+    <input type="text" id="editTelefone"><br><br>
+
+    <label>Endereço:</label><br>
+    <input type="text" id="editEndereco"><br><br>
+
+    <button onclick="salvarContatoCliente()">💾 Salvar Alterações</button>
+
+    <hr>
+
+    <h3>📅 Consultas Agendadas</h3>
+    <ul id="listaConsultasCliente"></ul>
+</div>
+
+
     <option value="">Selecione um cliente</option>
 </select><br><br>
 

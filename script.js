@@ -363,3 +363,95 @@ function cancelarConsulta(clienteId, indexConsulta, quemCancelou) {
     setUsuarios(usuarios);
     alert('Consulta cancelada com sucesso!');
 }
+
+
+//=======carregar dados ao selecionar cliente======
+
+document.addEventListener('DOMContentLoaded', () => {
+    const select = document.getElementById('clienteConsulta');
+
+    if (select) {
+        select.addEventListener('change', carregarInfoCliente);
+    }
+});
+
+
+//=====carregar informaçoes do cliente area funcionario====
+
+function carregarInfoCliente() {
+    const clienteId = document.getElementById('clienteConsulta').value;
+    const divInfo = document.getElementById('infoCliente');
+
+    if (!clienteId) {
+        divInfo.style.display = 'none';
+        return;
+    }
+
+    const usuarios = getUsuarios();
+    const cliente = usuarios.find(u => u.id == clienteId);
+
+    if (!cliente) return;
+
+    // Mostrar painel
+    divInfo.style.display = 'block';
+
+    // Preencher contatos
+    document.getElementById('editEmail').value = cliente.email || '';
+    document.getElementById('editTelefone').value = cliente.telefone || '';
+    document.getElementById('editEndereco').value = cliente.endereco || '';
+
+    carregarConsultasDoCliente(cliente);
+}
+
+
+//===listar consultas do cliente=========
+
+function carregarConsultasDoCliente(cliente) {
+    const lista = document.getElementById('listaConsultasCliente');
+    lista.innerHTML = '';
+
+    if (!cliente.consultas || cliente.consultas.length === 0) {
+        lista.innerHTML = '<li>Nenhuma consulta agendada</li>';
+        return;
+    }
+
+    cliente.consultas.forEach((c, index) => {
+        if (c.status === 'cancelada') return;
+
+        const li = document.createElement('li');
+        li.innerHTML = `
+            ${c.data} - ${c.horario} (${c.tipo})
+            <button onclick="cancelarConsulta(${cliente.id}, ${index}, 'funcionario')">
+                ❌ Cancelar
+            </button>
+        `;
+        lista.appendChild(li);
+    });
+}
+
+//========= salvar alteraçao de contato do cliente========
+
+function salvarContatoCliente() {
+    const clienteId = document.getElementById('clienteConsulta').value;
+
+    const email = document.getElementById('editEmail').value;
+    const telefone = document.getElementById('editTelefone').value;
+    const endereco = document.getElementById('editEndereco').value;
+
+    const usuarios = getUsuarios();
+    const cliente = usuarios.find(u => u.id == clienteId);
+
+    if (!cliente) {
+        alert('Cliente não encontrado');
+        return;
+    }
+
+    cliente.email = email;
+    cliente.telefone = telefone;
+    cliente.endereco = endereco;
+
+    setUsuarios(usuarios);
+    alert('Contato atualizado com sucesso!');
+}
+
+
