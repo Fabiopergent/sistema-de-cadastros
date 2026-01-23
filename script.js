@@ -202,7 +202,7 @@ function carregarClientesNoSelect() {
 select.innerHTML = '<option value="">Selecione um cliente</option>';
 
 clientes.forEach(cliente => {
-    const otpion = document.createElement('option');
+    const option = document.createElement('option');
     option.value = cliente.id;
    // option.textContent = cliente.nome + ' - ' + cliente.email;
     option.textContent = `${cliente.nome} - ${cliente.email}`;
