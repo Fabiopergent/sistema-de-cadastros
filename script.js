@@ -177,17 +177,8 @@ if (formLoginCliente) {
         e.preventDefault();
         loginCliente();
     });
+
 }
-
-//----- chama funcao cadastrar cliente ==========
-
-document.addEventListener('DOMContentLoaded', () => {
-    const btn = document.getElementById('btnCadastrarCliente');
-
-    if (btn) {
-        btn.addEventListener('click', mostrarCadastroCliente);
-    }
-});
 
 
 // ==========carregar clientes salvos
@@ -208,12 +199,10 @@ clientes.forEach(cliente => {
     option.textContent = `${cliente.nome} - ${cliente.email}`;
     select.appendChild(option);
   });
+
 }
 
-//CHAMA AUTOMATICAMENTE OS CLIENTES CADASTRADOS NA AREA FUNCIONARIO ///
-document.addEventListener('DOMContentLoaded', () => {
-    carregarClientesNoSelect();
-})
+
 
 //=====FUNCAO AGENDAMENTO DE CONSULTA  =====
 
@@ -325,15 +314,9 @@ function carregarConsultasCliente() {
         `;
         lista.appendChild(li);
     });
+    
 }
 
-
-//===== CHAMAR CONSULTA AUTOMATICAMENTE DO CLIENT
-
-document.addEventListener('DOMContentLoaded', () => {
-    carregarClientesNoSelect();
-    carregarConsultasCliente();
-});
 
 //======funçao de cancelamento de consulta========
 
@@ -362,18 +345,8 @@ function cancelarConsulta(clienteId, indexConsulta, quemCancelou) {
 
     setUsuarios(usuarios);
     alert('Consulta cancelada com sucesso!');
+    
 }
-
-
-//=======carregar dados ao selecionar cliente======
-
-document.addEventListener('DOMContentLoaded', () => {
-    const select = document.getElementById('clienteConsulta');
-
-    if (select) {
-        select.addEventListener('change', carregarInfoCliente);
-    }
-});
 
 
 //=====carregar informaçoes do cliente area funcionario====
@@ -454,4 +427,26 @@ function salvarContatoCliente() {
     alert('Contato atualizado com sucesso!');
 }
 
+//===== Chamada de funcoes ======
 
+document.addEventListener('DOMContentLoaded', () => {
+
+    // Botão cadastrar cliente (área funcionário)
+    const btnCadastrar = document.getElementById('btnCadastrarCliente');
+    if (btnCadastrar) {
+        btnCadastrar.addEventListener('click', mostrarCadastroCliente);
+    }
+
+    // Carregar clientes no select (se existir)
+    carregarClientesNoSelect();
+
+    // Carregar consultas do cliente logado (se estiver na área cliente)
+    carregarConsultasCliente();
+
+    // Evento ao selecionar cliente (área funcionário)
+    const selectCliente = document.getElementById('clienteConsulta');
+    if (selectCliente) {
+        selectCliente.addEventListener('change', carregarInfoCliente);
+    }
+
+});

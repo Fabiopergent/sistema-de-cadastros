@@ -5,13 +5,12 @@
     <title>Área do Funcionário</title>
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body data-tipo="funcionario">
 
 <h2>Painel do Funcionário</h2>
 
-<!-- <button onclick="mostrarCadastroCliente()">Cadastrar Cliente</button>  -->
 <button id="btnCadastrarCliente">Cadastrar Cliente</button>
-
 
 <div id="cadastroCliente" style="display:none;">
     <h3>Novo Cliente</h3>
@@ -28,12 +27,15 @@
 
 <hr>
 
-<h3>Agendar Consulta</h3>
+<h3>📅 Agendamento de Consulta</h3>
 
+<label>Cliente:</label><br>
 <select id="clienteConsulta">
+    <option value="">Selecione um cliente</option>
+</select><br><br>
 
-    <div id="infoCliente" style="display:none; margin-top:20px;">
-
+<!-- DADOS DO CLIENTE -->
+<div id="infoCliente" style="display:none; margin-top:20px;">
     <h3>📋 Dados do Cliente</h3>
 
     <label>Email:</label><br>
@@ -53,29 +55,25 @@
     <ul id="listaConsultasCliente"></ul>
 </div>
 
-<select id="clienteConsulta"></select>
-    <option value="">Selecione um cliente</option>
-</select><br><br>
+<hr>
 
+<label>Data:</label><br>
 <input type="date" id="dataConsulta"><br><br>
+
+<label>Horário:</label><br>
 <input type="time" id="horaConsulta"><br><br>
 
+<label>Tipo de Consulta:</label><br>
 <select id="tipoConsulta">
-    <option value="">Tipo de consulta</option>
+    <option value="">Selecione</option>
     <option value="Clínica Geral">Clínica Geral</option>
     <option value="Cardiologia">Cardiologia</option>
     <option value="Dermatologia">Dermatologia</option>
 </select><br><br>
 
-<button onclick="agendarConsulta()">Agendar</button>
+<button onclick="agendarConsulta()">Agendar Consulta</button>
 
-<button onclick="cancelarConsulta(clienteId, index, 'funcionario')">
-Cancelar
-</button>
-
-
-
-<br>
+<br><br>
 <button onclick="logout()">Sair</button>
 
 <script src="auth.js"></script>
