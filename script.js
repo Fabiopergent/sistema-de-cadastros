@@ -1,3 +1,15 @@
+//=======PROTECAO DE ACESSO AREA-ADM PARA INVIABILIZAR ENTRADA PELO URL
+
+document.addEventListener('DOMContentLoaded', () => {
+    const usuario = JSON.parse(localStorage.getItem('usuarioLogado'));
+
+    if (!usuario || usuario.tipo !== 'admin') {
+        alert('Acesso não autorizado');
+        window.location.href = 'index.html';
+    }
+});
+
+
 // ================= BANCO ÚNICO =================
 function getUsuarios() {
     return JSON.parse(localStorage.getItem('usuarios')) || [];
@@ -442,7 +454,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Carregar consultas do cliente logado (se estiver na área cliente)
     carregarConsultasCliente();
-    
+
     // Carrega consulta de funcionarios na area ADM
     carregarFuncionariosAdmin();
 
