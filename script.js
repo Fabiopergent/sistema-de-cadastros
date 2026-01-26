@@ -354,11 +354,16 @@ function carregarConsultasCliente() {
 
         const li = document.createElement('li');
         li.innerHTML = `
-            ${c.data} - ${c.horario} (${c.tipo})
+            <strong>${c.data} - ${c.horario}</strong> (${c.tipo})<br>
+            <small>
+                 📌 Agendada em: ${c.criadoEm || '---'} <br>
+                 👤 Agendada por: ${c.agendadoPor || '---'}
+            </small><br>
             <button onclick="cancelarConsulta(${cliente.id}, ${index}, 'cliente')">
                 Cancelar
             </button>
-        `;
+`;
+
         lista.appendChild(li);
     });
     
@@ -440,11 +445,16 @@ function carregarConsultasDoCliente(cliente) {
 
         const li = document.createElement('li');
         li.innerHTML = `
-            ${c.data} - ${c.horario} (${c.tipo})
+            <strong>${c.data} - ${c.horario}</strong> (${c.tipo})<br>
+            <small>
+                📌 Criada em: ${c.criadoEm || '---'} <br>
+                👤 Agendada por: ${c.agendadoPor || '---'}
+            </small><br>
             <button onclick="cancelarConsulta(${cliente.id}, ${index}, 'funcionario')">
                 ❌ Cancelar
             </button>
-        `;
+`;
+
         lista.appendChild(li);
     });
 }
