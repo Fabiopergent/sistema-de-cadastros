@@ -2,8 +2,17 @@
 
 document.addEventListener('DOMContentLoaded', () => {
     const usuario = JSON.parse(localStorage.getItem('usuarioLogado'));
+    const tipoPagina = document.body.dataset.tipo; // admin, funcionario, cliente
 
-    if (!usuario || usuario.tipo !== 'admin') {
+    if (!tipoPagina) return; // páginas públicas (index, login, etc)
+
+    if (!usuario) {
+        alert('Acesso não autorizado');
+        window.location.href = 'index.html';
+        return;
+    }
+
+    if (usuario.tipo !== tipoPagina) {
         alert('Acesso não autorizado');
         window.location.href = 'index.html';
     }
