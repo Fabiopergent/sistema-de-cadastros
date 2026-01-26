@@ -9,18 +9,39 @@
 
 <h2>Painel do Administrador</h2>
 
-<button onclick="mostrarCadastroFuncionario()">Cadastrar Funcionário</button>
+<h3>Funcionários Cadastrados</h3>
 
-<div id="cadastroFuncionario" style="display:none;">
-    <h3>Novo Funcionário</h3>
+<table border="1" width="100%">
+    <thead>
+        <tr>
+            <th>Nome</th>
+            <th>Matrícula</th>
+            <th>Email</th>
+            <th>Ações</th>
+        </tr>
+    </thead>
+    <tbody id="tabelaFuncionarios">
+        <!-- preenchido via JS -->
+    </tbody>
+</table>
 
-    <input type="text" id="nomeFunc" placeholder="Nome Completo">
-    <input type="text" id="matriculaFunc" placeholder="Matrícula">
-    <input type="password" id="senhaFunc" placeholder="Senha">
-    <input type="email" id="emailFunc" placeholder="Email">
+<hr>
 
-    <button onclick="cadastrarFuncionario()">Salvar</button>
+<div id="editarFuncionario" style="display:none;">
+    <h3>Editar Funcionário</h3>
+
+    <input type="hidden" id="editFuncId">
+
+    <label>Nome:</label><br>
+    <input type="text" id="editFuncNome"><br><br>
+
+    <label>Email:</label><br>
+    <input type="email" id="editFuncEmail"><br><br>
+
+    <button onclick="salvarEdicaoFuncionario()">Salvar</button>
+    <button onclick="cancelarEdicaoFuncionario()">Cancelar</button>
 </div>
+
 
 <button onclick="logout()">Sair</button>
 

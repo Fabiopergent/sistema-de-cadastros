@@ -345,7 +345,7 @@ function cancelarConsulta(clienteId, indexConsulta, quemCancelou) {
 
     setUsuarios(usuarios);
     alert('Consulta cancelada com sucesso!');
-    
+
 }
 
 
@@ -442,6 +442,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Carregar consultas do cliente logado (se estiver na área cliente)
     carregarConsultasCliente();
+    
+    // Carrega consulta de funcionarios na area ADM
+    carregarFuncionariosAdmin();
 
     // Evento ao selecionar cliente (área funcionário)
     const selectCliente = document.getElementById('clienteConsulta');
@@ -450,3 +453,90 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
 });
+
+
+//===== CARREGAR AREA ADM TABELA DE FUNCIONARIOS =====
+
+function carregarFuncionariosAdmin() {
+    const tabela = document.getElementById('tabelaFuncionarios');
+    if (!tabela) return;
+
+    const usuarios = getUsuarios();
+    const funcionarios = usuarios.filter(u => u.tipo === 'funcionario');
+
+    tabela.innerHTML = '';
+
+    if (funcionarios.length === 0) {
+        tabela.innerHTML = '<tr><td colspan="4">Nenhum funcionário cadastrado</td></tr>';
+        return;
+    }
+
+    funcionarios.forEach(func => {
+        const tr = document.createElement('tr');
+
+        tr.innerHTML = `
+            <td>${func.nome}</td>
+            <td>${func.matricula}</td>
+            <td>${func.email || '-'}</td>
+            <td>
+                <button onclick="editarFuncionario(${func.id})">✏️ Editar</button>
+            </td>
+        `;
+
+        tabela.appendChild(tr);
+    });
+}
+
+
+// =======AREA ADM , ABRIR FORMULARIO DE EDICAO======
+
+function editarFuncionario(id) {
+    const usuarios = getUsuarios();
+    const funcionario = usuarios.find(u => u.id === id);
+
+    if (!funcionario) return;
+
+    document.getElementById('editarFuncionario').style.display = 'block';
+    document.getElementById('editFuncId').value = funcionario.id;
+    document.getElementById('editFuncNome').value = funcionario.nome;
+    document.getElementById('editFuncEmail').value = funcionario.email || '';
+}
+
+
+//====AREA ADM SALVAR ALTERACOES ========
+
+function salvarEdicaoFuncionario() {
+    const id = document.getElementById('editFuncId').value;
+    const nome = document.getElementById('editFuncNome').value;
+    const email = document.getElementById('editFuncEmail').value;
+
+    const usuarios = getUsuarios();
+    const funcionario = usuarios.find(u => u.id == id);
+
+    if (!funcionario) {
+        alert('Funcionário não encontrado');
+        return;
+    }
+
+    if (!nome) {
+        alert('Nome é obrigatório');
+        return;
+    }
+
+    funcionario.nome = nome;
+    funcionario.email = email;
+
+    setUsuarios(usuarios);
+    alert('Funcionário atualizado com sucesso!');
+
+    cancelarEdicaoFuncionario();
+    carregarFuncionariosAdmin();
+}
+
+//==== AREA ADM CANCELAR EDICAO 
+
+function cancelarEdicaoFuncionario() {
+    document.getElementById('editarFuncionario').style.display = 'none';
+}
+
+
