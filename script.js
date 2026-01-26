@@ -239,8 +239,33 @@ function agendarConsulta() {
         return;
     }
 
-    const hoje = new Date();
-    const dataConsulta = new Date(data + 'T00:00');
+    //const hoje = new Date();
+    //const dataConsulta = new Date(data + 'T00:00');
+    const agora = new Date();
+
+    // cria data completa da consulta (data + horário)
+    const dataHoraConsulta = new Date(`${data}T${horario}`);
+
+    // diferença em milissegundos
+    const diffMs = dataHoraConsulta - agora;
+
+    // converter para horas
+    const diffHoras = diffMs / (1000 * 60 * 60);
+
+    // ❌ não pode ser no passado ou agora
+    if (diffHoras <= 0) {
+        alert('Não é permitido agendar para o horário atual ou passado');
+        return;
+}
+
+    // ❌ mínimo 3 horas de antecedência
+    if (diffHoras < 3) {
+        alert('A consulta deve ser agendada com no mínimo 3 horas de antecedência');
+        return;
+}
+
+
+    
 
     if (dataConsulta < new Date(hoje.toDateString())) {
         alert('Não é permitido agendar para datas passadas');
@@ -285,14 +310,23 @@ function agendarConsulta() {
     if (!cliente.consultas) {
         cliente.consultas = [];
     }
+//===========
+    const usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado'));
+
 
     cliente.consultas.push({
-        data,
-        horario,
-        tipo,
-        status: 'ativa',
-        cancelamento: null
-    });
+    data,
+    horario,
+    tipo,
+    status: 'ativa',
+
+    // 🔹 auditoria
+    agendadoEm: new Date().toLocaleString(),
+    agendadoPor: usuarioLogado ? usuarioLogado.nome : 'Sistema',
+
+    cancelamento: null
+});
+
 
     setUsuarios(usuarios);
     alert('Consulta agendada com sucesso!');
@@ -501,6 +535,7 @@ function carregarFuncionariosAdmin() {
             <td>${func.email || '-'}</td>
             <td>
                 <button onclick="editarFuncionario(${func.id})">✏️ Editar</button>
+                <button onclick="excluirFuncionario(${func.id})">🗑️ Excluir</button>
             </td>
         `;
 
@@ -619,3 +654,37 @@ document.addEventListener('DOMContentLoaded', () => {
     carregarDashboardAdmin();
 });
 
+//=====FUNÇAO EXCLUIR FUNCIONARIO TABELA ADM=====
+
+function excluirFuncionario(funcionarioId) {
+    const confirmacao = confirm(
+        'Tem certeza que deseja excluir este funcionário?\nEsta ação não poderá ser desfeita.'
+    );
+
+    if (!confirmacao) return;
+
+    const usuarios = getUsuarios();
+
+    const funcionario = usuarios.find(u => u.id == funcionarioId);
+
+    if (!funcionario) {
+        alert('Funcionário não encontrado');
+        return;
+    }
+
+    // 🔒 Regra de segurança
+    if (funcionario.tipo === 'admin') {
+        alert('Não é permitido excluir o administrador do sistema');
+        return;
+    }
+
+    // remove funcionário
+    const novaLista = usuarios.filter(u => u.id != funcionarioId);
+
+    setUsuarios(novaLista);
+
+    alert('Funcionário excluído com sucesso');
+
+    // recarrega tabela
+    carregarFuncionarios();
+}
