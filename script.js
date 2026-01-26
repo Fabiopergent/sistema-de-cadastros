@@ -519,6 +519,9 @@ document.addEventListener('DOMContentLoaded', () => {
     //CARREGAR TABELA DE FUNCIONARIOS 
     carregarTabelaFuncionarios();
 
+    //CARREGAR DADOS DO CLIENTE
+    carregarDadosCliente();
+
     // Evento ao selecionar cliente (área funcionário)
     const selectCliente = document.getElementById('clienteConsulta');
     if (selectCliente) {
@@ -854,3 +857,49 @@ function reativarFuncionario(id) {
     alert('Funcionário reativado com sucesso');
     carregarTabelaFuncionarios();
 }
+
+
+//==================CARREGAR DADOS CLIENTES===========
+
+function carregarDadosCliente() {
+    const usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado'));
+    if (!usuarioLogado || usuarioLogado.tipo !== 'cliente') return;
+
+    document.getElementById('clienteEditEmail').value = usuarioLogado.email || '';
+    document.getElementById('clienteEditTelefone').value = usuarioLogado.telefone || '';
+    document.getElementById('clienteEditEndereco').value = usuarioLogado.endereco || '';
+}
+
+//============= SALVAR ALTERACOES DE DADOS AREA CLIENTE===========
+
+function salvarDadosCliente() {
+    const usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado'));
+    if (!usuarioLogado || usuarioLogado.tipo !== 'cliente') {
+        alert('Acesso inválido');
+        return;
+    }
+
+    const email = document.getElementById('clienteEditEmail').value;
+    const telefone = document.getElementById('clienteEditTelefone').value;
+    const endereco = document.getElementById('clienteEditEndereco').value;
+
+    const usuarios = getUsuarios();
+    const cliente = usuarios.find(u => u.id === usuarioLogado.id);
+
+    if (!cliente) {
+        alert('Cliente não encontrado');
+        return;
+    }
+
+    cliente.email = email;
+    cliente.telefone = telefone;
+    cliente.endereco = endereco;
+
+    setUsuarios(usuarios);
+
+    // 🔄 Atualiza sessão
+    localStorage.setItem('usuarioLogado', JSON.stringify(cliente));
+
+    alert('Dados atualizados com sucesso!');
+}
+
