@@ -183,7 +183,8 @@ function cadastrarFuncionario() {
         matricula,
         email,
         senha,
-        tipo: 'funcionario'
+        tipo: 'funcionario',
+        ativo: true
     });
 
     setUsuarios(usuarios);
@@ -509,6 +510,9 @@ document.addEventListener('DOMContentLoaded', () => {
     //CARREGA OS DADOS DA AUDITORIA AREA ADM
     carregarAuditoriaAdmin();
 
+    //CARREGAR TABELA DE FUNCIONARIOS 
+    carregarTabelaFuncionarios();
+
     // Evento ao selecionar cliente (área funcionário)
     const selectCliente = document.getElementById('clienteConsulta');
     if (selectCliente) {
@@ -769,4 +773,78 @@ function carregarAuditoriaAdmin() {
                 tabela.appendChild(tr);
             });
         });
+}
+
+
+//======= FUNÇAO CARREGAR TABELA DE FUNCIONARIO=========
+
+function carregarTabelaFuncionarios() {
+    const tabela = document.getElementById('tabelaFuncionarios');
+    if (!tabela) return;
+
+    const usuarios = getUsuarios();
+    const funcionarios = usuarios.filter(u => u.tipo === 'funcionario');
+
+    tabela.innerHTML = '';
+
+    funcionarios.forEach(func => {
+        const tr = document.createElement('tr');
+
+        tr.innerHTML = `
+            <td>${func.nome}</td>
+            <td>${func.matricula}</td>
+            <td>${func.email}</td>
+            <td>
+                <button onclick="editarFuncionario(${func.id})">Editar</button>
+                ${
+                    func.ativo !== false
+                    ? `<button onclick="desativarFuncionario(${func.id})">Desativar</button>`
+                    : `<button onclick="reativarFuncionario(${func.id})">Reativar</button>`
+                }
+            </td>
+        `;
+
+        tabela.appendChild(tr);
+    });
+}
+
+//========DESATIVAR FUNCIONARIO SEM APAGAR=========
+
+function desativarFuncionario(id) {
+    if (!confirm('Deseja realmente desativar este funcionário?')) return;
+
+    const usuarios = getUsuarios();
+    const func = usuarios.find(u => u.id === id && u.tipo === 'funcionario');
+
+    if (!func) {
+        alert('Funcionário não encontrado');
+        return;
+    }
+
+    func.ativo = false;
+    setUsuarios(usuarios);
+
+    alert('Funcionário desativado com sucesso');
+    carregarTabelaFuncionarios();
+}
+
+
+//========REATIVAR FUNCIONARIO==========
+
+function reativarFuncionario(id) {
+    if (!confirm('Deseja reativar este funcionário?')) return;
+
+    const usuarios = getUsuarios();
+    const func = usuarios.find(u => u.id === id && u.tipo === 'funcionario');
+
+    if (!func) {
+        alert('Funcionário não encontrado');
+        return;
+    }
+
+    func.ativo = true;
+    setUsuarios(usuarios);
+
+    alert('Funcionário reativado com sucesso');
+    carregarTabelaFuncionarios();
 }
