@@ -484,7 +484,7 @@ function salvarContatoCliente() {
     alert('Contato atualizado com sucesso!');
 }
 
-//===== Chamada de funcoes ======
+//===== Chamada de funcoes ====== *****@@@@@@@@@@@@@
 
 document.addEventListener('DOMContentLoaded', () => {
 
@@ -502,6 +502,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Carrega consulta de funcionarios na area ADM
     carregarFuncionariosAdmin();
+
+    //CARREGA DASHBOARD AREA ADM
+    carregarDashboardAdmin();
+     
+    //CARREGA OS DADOS DA AUDITORIA AREA ADM
+    carregarAuditoriaAdmin();
 
     // Evento ao selecionar cliente (área funcionário)
     const selectCliente = document.getElementById('clienteConsulta');
@@ -652,9 +658,9 @@ function carregarDashboardAdmin() {
 }
 
 // CHAMAR AUTOMATICAMENTE
-document.addEventListener('DOMContentLoaded', () => {
-    carregarDashboardAdmin();
-});
+//document.addEventListener('DOMContentLoaded', () => {
+  //  carregarDashboardAdmin();
+//});
 
 //=====FUNÇAO EXCLUIR FUNCIONARIO TABELA ADM=====
 
@@ -689,4 +695,78 @@ function excluirFuncionario(funcionarioId) {
 
     // recarrega tabela
     carregarFuncionarios();
+}
+
+
+//========DASHBOARD ADM AUDITORIA============
+
+function carregarDashboardAdmin() {
+    const usuario = JSON.parse(localStorage.getItem('usuarioLogado'));
+    if (!usuario || usuario.tipo !== 'admin') return;
+
+    const usuarios = getUsuarios();
+
+    const clientes = usuarios.filter(u => u.tipo === 'cliente');
+    const funcionarios = usuarios.filter(u => u.tipo === 'funcionario');
+
+    let consultasAtivas = 0;
+    let consultasCanceladas = 0;
+    let consultasHoje = 0;
+
+    const hoje = new Date().toISOString().split('T')[0];
+
+    clientes.forEach(cliente => {
+        if (!cliente.consultas) return;
+
+        cliente.consultas.forEach(c => {
+            if (c.status === 'ativa') consultasAtivas++;
+            if (c.status === 'cancelada') consultasCanceladas++;
+            if (c.data === hoje) consultasHoje++;
+        });
+    });
+
+    document.getElementById('totalClientes').textContent = clientes.length;
+    document.getElementById('totalFuncionarios').textContent = funcionarios.length;
+    document.getElementById('totalConsultasAtivas').textContent = consultasAtivas;
+    document.getElementById('totalConsultasCanceladas').textContent = consultasCanceladas;
+    document.getElementById('totalConsultasHoje').textContent = consultasHoje;
+}
+
+//=========CARREGAR AUDITORIA ADM =============
+
+function carregarAuditoriaAdmin() {
+    const tabela = document.getElementById('tabelaAuditoria');
+    if (!tabela) return;
+
+    tabela.innerHTML = '';
+    const usuarios = getUsuarios();
+
+    usuarios
+        .filter(u => u.tipo === 'cliente')
+        .forEach(cliente => {
+            if (!cliente.consultas) return;
+
+            cliente.consultas.forEach(c => {
+                const tr = document.createElement('tr');
+
+                tr.innerHTML = `
+                    <td>${cliente.nome}</td>
+                    <td>${c.data}</td>
+                    <td>${c.horario}</td>
+                    <td>${c.status}</td>
+                    <td>${c.agendadoPor || '-'}</td>
+                    <td>${c.criadoEm || '-'}</td>
+                    <td>
+                        ${
+                            c.cancelamento
+                                ? `${c.cancelamento.motivo}<br>
+                                   <small>${c.cancelamento.quemCancelou}</small>`
+                                : '-'
+                        }
+                    </td>
+                `;
+
+                tabela.appendChild(tr);
+            });
+        });
 }
