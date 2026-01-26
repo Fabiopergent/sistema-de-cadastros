@@ -580,3 +580,42 @@ function cancelarEdicaoFuncionario() {
 }
 
 
+// ================= DASHBOARD ADMIN =================
+
+function carregarDashboardAdmin() {
+    const usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado'));
+    if (!usuarioLogado || usuarioLogado.tipo !== 'admin') return;
+
+    const usuarios = getUsuarios();
+
+    const clientes = usuarios.filter(u => u.tipo === 'cliente');
+    const funcionarios = usuarios.filter(u => u.tipo === 'funcionario');
+
+    let consultasAtivas = 0;
+    let consultasCanceladas = 0;
+    let consultasHoje = 0;
+
+    const hoje = new Date().toISOString().split('T')[0];
+
+    clientes.forEach(cliente => {
+        if (!cliente.consultas) return;
+
+        cliente.consultas.forEach(c => {
+            if (c.status === 'ativa') consultasAtivas++;
+            if (c.status === 'cancelada') consultasCanceladas++;
+            if (c.data === hoje && c.status === 'ativa') consultasHoje++;
+        });
+    });
+
+    document.getElementById('totalClientes').textContent = clientes.length;
+    document.getElementById('totalFuncionarios').textContent = funcionarios.length;
+    document.getElementById('totalConsultasAtivas').textContent = consultasAtivas;
+    document.getElementById('totalConsultasCanceladas').textContent = consultasCanceladas;
+    document.getElementById('totalConsultasHoje').textContent = consultasHoje;
+}
+
+// CHAMAR AUTOMATICAMENTE
+document.addEventListener('DOMContentLoaded', () => {
+    carregarDashboardAdmin();
+});
+
