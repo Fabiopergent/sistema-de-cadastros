@@ -56,7 +56,13 @@ function login() {
     if (!usuario) {
         alert('Email ou senha inválidos');
         return;
-    }
+}
+
+    if (usuario.tipo === 'funcionario' && usuario.ativo === false) {
+        alert('Funcionário desativado. Procure o administrador.');
+        return;
+}
+
 
     localStorage.setItem('usuarioLogado', JSON.stringify(usuario));
 
