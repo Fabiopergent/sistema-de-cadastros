@@ -1,0 +1,173 @@
+/* ================= RESET ================= */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Arial, sans-serif;
+}
+
+/* ================= BODY ================= */
+body {
+    background: #f4f8fb;
+    color: #333;
+    padding: 20px;
+}
+
+/* ================= TITULOS ================= */
+h2 {
+    color: #0a4f8f;
+    margin-bottom: 15px;
+}
+
+h3 {
+    color: #1b6ca8;
+    margin: 20px 0 10px;
+}
+
+h4 {
+    color: #1b6ca8;
+}
+
+/* ================= BOTÕES ================= */
+button {
+    background: #1b6ca8;
+    color: #fff;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: 0.2s;
+}
+
+button:hover {
+    background: #155a8a;
+}
+
+button.cancelar,
+button.excluir {
+    background: #c0392b;
+}
+
+button.cancelar:hover,
+button.excluir:hover {
+    background: #a93226;
+}
+
+button.secundario {
+    background: #7f8c8d;
+}
+
+/* ================= INPUTS ================= */
+input,
+select {
+    width: 100%;
+    max-width: 350px;
+    padding: 8px;
+    margin-top: 5px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+}
+
+input:focus,
+select:focus {
+    outline: none;
+    border-color: #1b6ca8;
+}
+
+/* ================= SEÇÕES ================= */
+hr {
+    margin: 25px 0;
+    border: none;
+    border-top: 1px solid #ddd;
+}
+
+/* ================= CARDS ================= */
+.card {
+    background: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    min-width: 180px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+    text-align: center;
+}
+
+.card p {
+    font-size: 24px;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+/* ================= DASHBOARD ================= */
+#dashboard {
+    margin-bottom: 30px;
+}
+
+/* ================= TABELAS ================= */
+table {
+    border-collapse: collapse;
+    width: 100%;
+    background: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+}
+
+th {
+    background: #1b6ca8;
+    color: #fff;
+    padding: 10px;
+    text-align: left;
+}
+
+td {
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+}
+
+tr:hover {
+    background: #f0f6fb;
+}
+
+/* ================= PAINÉIS ================= */
+#cadastroCliente,
+#editarFuncionario,
+#infoCliente {
+    background: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    margin-top: 15px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+}
+
+/* ================= LISTAS ================= */
+ul {
+    list-style: none;
+}
+
+ul li {
+    background: #f9fbfd;
+    padding: 10px;
+    margin-bottom: 8px;
+    border-radius: 6px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* ================= RESPONSIVO ================= */
+@media (max-width: 768px) {
+    body {
+        padding: 10px;
+    }
+
+    #dashboard {
+        flex-direction: column;
+    }
+
+    table,
+    input,
+    select {
+        font-size: 14px;
+    }
+}
