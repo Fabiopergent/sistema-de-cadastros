@@ -521,38 +521,57 @@ function editarFuncionario(id) {
     document.getElementById('editFuncId').value = funcionario.id;
     document.getElementById('editFuncNome').value = funcionario.nome;
     document.getElementById('editFuncEmail').value = funcionario.email || '';
+    document.getElementById('editFuncMatricula').value = funcionario.matricula || '';
+
+    document.getElementById('editarFuncionario').style.display = 'block';
+
 }
 
 
 //====AREA ADM SALVAR ALTERACOES ========
 
 function salvarEdicaoFuncionario() {
-    const id = document.getElementById('editFuncId').value;
+    const id = Number(document.getElementById('editFuncId').value);
     const nome = document.getElementById('editFuncNome').value;
     const email = document.getElementById('editFuncEmail').value;
+    const matricula = document.getElementById('editFuncMatricula').value;
+
+    if (!nome || !email || !matricula) {
+        alert('Preencha todos os campos');
+        return;
+    }
 
     const usuarios = getUsuarios();
-    const funcionario = usuarios.find(u => u.id == id);
+    const funcionario = usuarios.find(u => u.id === id);
 
     if (!funcionario) {
         alert('Funcionário não encontrado');
         return;
     }
 
-    if (!nome) {
-        alert('Nome é obrigatório');
+    // 🔐 valida matrícula duplicada
+    const matriculaDuplicada = usuarios.some(u =>
+        u.tipo === 'funcionario' &&
+        u.matricula === matricula &&
+        u.id !== id
+    );
+
+    if (matriculaDuplicada) {
+        alert('Já existe um funcionário com esta matrícula');
         return;
     }
 
     funcionario.nome = nome;
     funcionario.email = email;
+    funcionario.matricula = matricula;
 
     setUsuarios(usuarios);
     alert('Funcionário atualizado com sucesso!');
 
     cancelarEdicaoFuncionario();
-    carregarFuncionariosAdmin();
+    carregarFuncionarios(); // recarrega a tabela
 }
+
 
 //==== AREA ADM CANCELAR EDICAO 
 
