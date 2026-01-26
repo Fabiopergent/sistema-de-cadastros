@@ -227,7 +227,6 @@ clientes.forEach(cliente => {
 
 //=====FUNCAO AGENDAMENTO DE CONSULTA  =====
 
-
 function agendarConsulta() {
     const clienteID = document.getElementById('clienteConsulta').value;
     const data = document.getElementById('dataConsulta').value;
@@ -239,45 +238,37 @@ function agendarConsulta() {
         return;
     }
 
-    //const hoje = new Date();
-    //const dataConsulta = new Date(data + 'T00:00');
+    // 🔥 DATA/HORA COMPLETA
     const agora = new Date();
-
-    // cria data completa da consulta (data + horário)
     const dataHoraConsulta = new Date(`${data}T${horario}`);
 
-    // diferença em milissegundos
-    const diffMs = dataHoraConsulta - agora;
-
-    // converter para horas
-    const diffHoras = diffMs / (1000 * 60 * 60);
-
-    // ❌ não pode ser no passado ou agora
-    if (diffHoras <= 0) {
-        alert('Não é permitido agendar para o horário atual ou passado');
-        return;
-}
-
-    // ❌ mínimo 3 horas de antecedência
-    if (diffHoras < 3) {
-        alert('A consulta deve ser agendada com no mínimo 3 horas de antecedência');
-        return;
-}
-
-
-    
-
-    if (dataConsulta < new Date(hoje.toDateString())) {
-        alert('Não é permitido agendar para datas passadas');
+    if (isNaN(dataHoraConsulta.getTime())) {
+        alert('Data ou horário inválido');
         return;
     }
 
-    const diaSemana = dataConsulta.getDay();
+    // 🚫 NÃO PERMITIR PASSADO OU MESMO HORÁRIO
+    if (dataHoraConsulta <= agora) {
+        alert('Não é permitido agendar para agora ou horário passado');
+        return;
+    }
+
+    // ⏱️ REGRA: mínimo 3 horas de antecedência
+    const diferencaHoras = (dataHoraConsulta - agora) / (1000 * 60 * 60);
+
+    if (diferencaHoras < 3) {
+        alert('A consulta deve ser agendada com no mínimo 3 horas de antecedência');
+        return;
+    }
+
+    // 📆 DIA DA SEMANA
+    const diaSemana = dataHoraConsulta.getDay();
     if (diaSemana === 0 || diaSemana === 6) {
         alert('Atendimento somente de segunda a sexta');
         return;
     }
 
+    // 🕖 HORÁRIO DE ATENDIMENTO
     if (horario < '07:00' || horario > '18:00') {
         alert('Horário permitido: 07:00 às 18:00');
         return;
@@ -291,7 +282,7 @@ function agendarConsulta() {
         return;
     }
 
-
+    // 🚫 BLOQUEIO DE HORÁRIO DUPLICADO (GLOBAL)
     const horarioOcupado = usuarios.some(u =>
         u.tipo === 'cliente' &&
         u.consultas &&
@@ -310,31 +301,32 @@ function agendarConsulta() {
     if (!cliente.consultas) {
         cliente.consultas = [];
     }
-//===========
-    const usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado'));
 
+    // 👤 FUNCIONÁRIO LOGADO
+    const funcionario = JSON.parse(localStorage.getItem('usuarioLogado'));
 
     cliente.consultas.push({
-    data,
-    horario,
-    tipo,
-    status: 'ativa',
-
-    // 🔹 auditoria
-    agendadoEm: new Date().toLocaleString(),
-    agendadoPor: usuarioLogado ? usuarioLogado.nome : 'Sistema',
-
-    cancelamento: null
-});
-
+        data,
+        horario,
+        tipo,
+        status: 'ativa',
+        criadoEm: new Date().toLocaleString(),
+        agendadoPor: funcionario?.nome || 'Funcionário',
+        cancelamento: null
+    });
 
     setUsuarios(usuarios);
+
     alert('Consulta agendada com sucesso!');
-    // ✅ LIMPAR CAMPOS (agora no lugar certo)
+
+    // LIMPAR CAMPOS
     document.getElementById('clienteConsulta').value = '';
     document.getElementById('dataConsulta').value = '';
     document.getElementById('horaConsulta').value = '';
     document.getElementById('tipoConsulta').value = '';
+
+    // Atualiza painel
+    carregarClientesNoSelect();
 }
 
 
