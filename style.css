@@ -97,10 +97,11 @@ select:focus {
 
 /* ================= DASHBOARD ================= */
 #dashboard {
-    display: flex;
-    gap: 20px;
-    margin-bottom: 30px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 16px;
 }
+
 
 /* ================= TABELAS ================= */
 table {
@@ -170,3 +171,60 @@ hr {
     }
     
 }
+
+/*=======Celular===========*/
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Poppins', sans-serif;
+}
+
+.container {
+    width: 100%;
+    max-width: 1200px;
+    margin: auto;
+    padding: 16px;
+}
+
+
+/*===== tabela responciva ======*/
+
+.tabela-responsiva {
+    width: 100%;
+    overflow-x: auto;
+}
+
+/*======botoes e inputs=======*/
+
+button,
+input,
+select {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 10px;
+    font-size: 16px;
+}
+
+/*========ajuste fino ========*/
+
+@media (max-width: 768px) {
+
+    h2, h3 {
+        text-align: center;
+    }
+
+    table th, table td {
+        font-size: 14px;
+        padding: 8px;
+    }
+
+    #dashboard {
+        grid-template-columns: 1fr;
+    }
+}
+
