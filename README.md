@@ -40,3 +40,6 @@ Projeto criado com foco em **prática de Análise e Desenvolvimento de Sistemas*
 
 ## 📌 Observação
 Este é um **projeto pessoal**, desenvolvido para fins educacionais e demonstração de habilidades práticas.
+
+## Persistência de Dados 
+Este sistema utiliza localStorage, portato os dados são armazenados localmente no navegador e não são compartilhados entre dispositivos diferentes.
