@@ -154,6 +154,19 @@ function cadastrarCliente() {
     setUsuarios(usuarios);
     alert('Cliente cadastrado com sucesso!');
     carregarClientesNoSelect();  // atualiza o select na hora
+    
+    //limpar campos
+    document.getElementById('clienteNome').value = '';
+    document.getElementById('clienteEmail').value = '';
+    document.getElementById('clienteSenha').value = '';
+    document.getElementById('clienteCpf').value = '';
+    document.getElementById('clienteTelefone').value = '';
+    document.getElementById('clienteEndereco').value = '';
+   
+    //fechar formulario
+    mostrarCadastroCliente();
+
+
 }
 
 
@@ -195,6 +208,13 @@ function cadastrarFuncionario() {
 
     setUsuarios(usuarios);
     alert('Funcionário cadastrado com sucesso!');
+
+//limpar dados 
+    document.getElementById('nomeFuncionario').value = '';
+    document.getElementById('nomeFuncionario').value = '';
+    document.getElementById('nomeFuncionario').value = '';
+    document.getElementById('nomeFuncionario').value = '';
+
 }
 
 // ================= FORM LOGIN CLIENTE =================
@@ -533,36 +553,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 //===== CARREGAR AREA ADM TABELA DE FUNCIONARIOS =====
 
-function carregarFuncionariosAdmin() {
-    const tabela = document.getElementById('tabelaFuncionarios');
-    if (!tabela) return;
 
-    const usuarios = getUsuarios();
-    const funcionarios = usuarios.filter(u => u.tipo === 'funcionario');
-
-    tabela.innerHTML = '';
-
-    if (funcionarios.length === 0) {
-        tabela.innerHTML = '<tr><td colspan="4">Nenhum funcionário cadastrado</td></tr>';
-        return;
-    }
-
-    funcionarios.forEach(func => {
-        const tr = document.createElement('tr');
-
-        tr.innerHTML = `
-            <td>${func.nome}</td>
-            <td>${func.matricula}</td>
-            <td>${func.email || '-'}</td>
-            <td>
-                <button onclick="editarFuncionario(${func.id})">✏️ Editar</button>
-                <button onclick="excluirFuncionario(${func.id})">🗑️ Excluir</button>
-            </td>
-        `;
-
-        tabela.appendChild(tr);
-    });
-}
 
 
 // =======AREA ADM , ABRIR FORMULARIO DE EDICAO======
@@ -625,7 +616,7 @@ function salvarEdicaoFuncionario() {
     alert('Funcionário atualizado com sucesso!');
 
     cancelarEdicaoFuncionario();
-    carregarFuncionarios(); // recarrega a tabela
+    carregarTabelaFuncionarios(); // recarrega a tabela
 }
 
 
@@ -677,73 +668,7 @@ function carregarDashboardAdmin() {
 
 //=====FUNÇAO EXCLUIR FUNCIONARIO TABELA ADM=====
 
-function excluirFuncionario(funcionarioId) {
-    const confirmacao = confirm(
-        'Tem certeza que deseja excluir este funcionário?\nEsta ação não poderá ser desfeita.'
-    );
 
-    if (!confirmacao) return;
-
-    const usuarios = getUsuarios();
-
-    const funcionario = usuarios.find(u => u.id == funcionarioId);
-
-    if (!funcionario) {
-        alert('Funcionário não encontrado');
-        return;
-    }
-
-    // 🔒 Regra de segurança
-    if (funcionario.tipo === 'admin') {
-        alert('Não é permitido excluir o administrador do sistema');
-        return;
-    }
-
-    // remove funcionário
-    const novaLista = usuarios.filter(u => u.id != funcionarioId);
-
-    setUsuarios(novaLista);
-
-    alert('Funcionário excluído com sucesso');
-
-    // recarrega tabela
-    carregarFuncionarios();
-}
-
-
-//========DASHBOARD ADM AUDITORIA============
-
-function carregarDashboardAdmin() {
-    const usuario = JSON.parse(localStorage.getItem('usuarioLogado'));
-    if (!usuario || usuario.tipo !== 'admin') return;
-
-    const usuarios = getUsuarios();
-
-    const clientes = usuarios.filter(u => u.tipo === 'cliente');
-    const funcionarios = usuarios.filter(u => u.tipo === 'funcionario');
-
-    let consultasAtivas = 0;
-    let consultasCanceladas = 0;
-    let consultasHoje = 0;
-
-    const hoje = new Date().toISOString().split('T')[0];
-
-    clientes.forEach(cliente => {
-        if (!cliente.consultas) return;
-
-        cliente.consultas.forEach(c => {
-            if (c.status === 'ativa') consultasAtivas++;
-            if (c.status === 'cancelada') consultasCanceladas++;
-            if (c.data === hoje) consultasHoje++;
-        });
-    });
-
-    document.getElementById('totalClientes').textContent = clientes.length;
-    document.getElementById('totalFuncionarios').textContent = funcionarios.length;
-    document.getElementById('totalConsultasAtivas').textContent = consultasAtivas;
-    document.getElementById('totalConsultasCanceladas').textContent = consultasCanceladas;
-    document.getElementById('totalConsultasHoje').textContent = consultasHoje;
-}
 
 //=========CARREGAR AUDITORIA ADM =============
 
