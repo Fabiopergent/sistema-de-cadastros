@@ -565,6 +565,39 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 //===== CARREGAR AREA ADM TABELA DE FUNCIONARIOS =====
+function carregarFuncionariosAdmin() {
+    const tabela = document.getElementById('tabelaFuncionarios');
+    if (!tabela) return;
+
+    const usuarios = getUsuarios();
+    const funcionarios = usuarios.filter(u => u.tipo === 'funcionario');
+
+    tabela.innerHTML = '';
+
+    if (funcionarios.length === 0) {
+        tabela.innerHTML = '<tr><td colspan="4">Nenhum funcionário cadastrado</td></tr>';
+        return;
+    }
+
+    funcionarios.forEach(func => {
+        const tr = document.createElement('tr');
+
+        tr.innerHTML = `
+            <td>${func.nome}</td>
+            <td>${func.matricula}</td>
+            <td>${func.email || '-'}</td>
+            <td>
+                <button onclick="editarFuncionario(${func.id})">✏️ Editar</button>
+                <button onclick="excluirFuncionario(${func.id})">🗑️ Excluir</button>
+            </td>
+        `;
+
+        tabela.appendChild(tr);
+    });
+}
+
+
+
 
 
 
