@@ -210,10 +210,16 @@ function cadastrarFuncionario() {
     alert('Funcionário cadastrado com sucesso!');
 
 //limpar dados 
-    document.getElementById('nomeFuncionario').value = '';
-    document.getElementById('nomeFuncionario').value = '';
-    document.getElementById('nomeFuncionario').value = '';
-    document.getElementById('nomeFuncionario').value = '';
+    document.getElementById('nomeFunc').value = '';
+    document.getElementById('matriculaFunc').value = '';
+    document.getElementById('emailFunc').value = '';
+    document.getElementById('senhaFunc').value = '';
+    
+    //fecha formulario
+    mostrarCadastroFuncionario();
+
+    //recarrega tabela
+    carregarTabelaFuncionarios();
 
 }
 
@@ -424,6 +430,13 @@ function cancelarConsulta(clienteId, indexConsulta, quemCancelou) {
 
     setUsuarios(usuarios);
     alert('Consulta cancelada com sucesso!');
+
+    // recarregar lista
+    if (quemCancelou === 'cliente') {
+        carregarConsultasCliente();
+    } else if (quemCancelou === 'funcionario') {
+        carregarConsultasDoCliente(cliente);
+    }
 
 }
 
