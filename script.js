@@ -271,6 +271,13 @@ function agendarConsulta() {
         return;
     }
 
+    // ⏰ VALIDAR MINUTOS (só :00 ou :30)
+const minutos = horario.split(':')[1];
+if (minutos !== '00' && minutos !== '30') {
+    alert('Horário deve ser agendado em :00 ou :30 minutos');
+    return;
+}
+
     // 🔥 DATA/HORA COMPLETA
     const agora = new Date();
     const dataHoraConsulta = new Date(`${data}T${horario}`);
@@ -307,13 +314,6 @@ function agendarConsulta() {
         return;
     }
 
-
-    // ⏰ VALIDAR MINUTOS (só :00 ou :30)
-const minutos = horario.split(':')[1];
-if (minutos !== '00' && minutos !== '30') {
-    alert('Horário deve ser agendado em :00 ou :30 minutos');
-    return;
-}
 
     const usuarios = getUsuarios();
     const cliente = usuarios.find(u => u.id == clienteID);
