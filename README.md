@@ -184,8 +184,9 @@ Este projeto me permitiu praticar:
 ---
 
 ## 📬 Contato
+**Email- fabiopergentino1989@hotmail.com**
 
-Desenvolvido por **[Seu Nome]**
+Desenvolvido por **[Fabio Pergentino da Silva]**
 
 [![LinkedIn](https://img.shields.io/badge/-LinkedIn-blue?style=flat&logo=Linkedin&logoColor=white)](seu-linkedin)
 [![GitHub](https://img.shields.io/badge/-GitHub-181717?style=flat&logo=github)](https://github.com/fabiopergent)
