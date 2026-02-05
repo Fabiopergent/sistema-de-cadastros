@@ -195,3 +195,13 @@ Desenvolvido por **[Fabio Pergentino da Silva]**
 ---
 
 ⭐ Se este projeto te ajudou de alguma forma, considere dar uma estrela!
+
+# SCREENSHOTS 
+
+![alt text](screenshots/image.png)
+![alt text](<screenshots/image copy.png>)
+![alt text](<screenshots/image copy 2.png>)
+![alt text](<screenshots/image copy 3.png>)
+![alt text](<screenshots/image copy 4.png>)
+![alt text](<screenshots/image copy 5.png>)
+![alt text](<screenshots/image copy 6.png>)
