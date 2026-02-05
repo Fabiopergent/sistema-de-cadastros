@@ -266,6 +266,10 @@ function agendarConsulta() {
     const horario = document.getElementById('horaConsulta').value;
     const tipo = document.getElementById('tipoConsulta').value;
 
+    // 🔍 TESTE - mostra o que foi digitado
+    console.log('Horário digitado:', horario);
+    console.log('Minutos:', horario.split(':')[1]);
+
     if (!clienteID || !data || !horario || !tipo) {
         alert('Preencha todos os campos');
         return;
