@@ -43,3 +43,28 @@ Este é um **projeto pessoal**, desenvolvido para fins educacionais e demonstra�
 
 ## Persistência de Dados 
 Este sistema utiliza localStorage, portato os dados são armazenados localmente no navegador e não são compartilhados entre dispositivos diferentes.
+
+05/02/26
+✅ Correções no script.js:
+
+✅ Removida função duplicada carregarDashboardAdmin()
+✅ Corrigida chamada carregarFuncionarios() → carregarTabelaFuncionarios()
+✅ Removida função duplicada carregarFuncionariosAdmin()
+✅ Removida função excluirFuncionario() (código morto)
+✅ cadastrarCliente() agora limpa campos e fecha formulário
+✅ cadastrarFuncionario() agora limpa campos, fecha formulário e atualiza tabela
+✅ cancelarConsulta() agora recarrega a lista na tela
+
+✅ Correções no style.css:
+
+✅ Removido reset duplicado do body
+✅ Removida regra duplicada de button/input/select
+✅ Adicionado estilo para links (<a>)
+✅ Adicionada classe .btn-acesso para botões de acesso
+✅ Adicionado #cadastroFuncionario aos painéis estilizados
+
+✅ Correções nos HTML:
+
+✅ Removido <div id="dados"> não utilizado do area-cliente.html
+✅ Removido auth.js de area-cliente.html e area-funcionario.html
+✅ Adicionada classe btn-acesso nos links do index.html
