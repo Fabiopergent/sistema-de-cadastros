@@ -266,21 +266,14 @@ function agendarConsulta() {
     const horario = document.getElementById('horaConsulta').value;
     const tipo = document.getElementById('tipoConsulta').value;
 
-    // 🔍 TESTE - mostra o que foi digitado
-    console.log('Horário digitado:', horario);
-    console.log('Minutos:', horario.split(':')[1]);
+
 
     if (!clienteID || !data || !horario || !tipo) {
         alert('Preencha todos os campos');
         return;
     }
 
-    // ⏰ VALIDAR MINUTOS (só :00 ou :30)
-const minutos = horario.split(':')[1];
-if (minutos !== '00' && minutos !== '30') {
-    alert('Horário deve ser agendado em :00 ou :30 minutos');
-    return;
-}
+    
 
     // 🔥 DATA/HORA COMPLETA
     const agora = new Date();
